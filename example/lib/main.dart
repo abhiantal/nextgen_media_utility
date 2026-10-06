@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:nextgen_media_utility/nextgen_media_utility.dart';
@@ -35,6 +34,12 @@ class _NextGenMediaExampleAppState extends State<NextGenMediaExampleApp> {
       theme: MediaTheme.lightTheme(),
       darkTheme: MediaTheme.darkTheme(),
       themeMode: _themeMode,
+      builder: (context, child) => Stack(
+        children: [
+          if (child != null) child,
+          AppSnackbar(key: snackbarService.snackbarKey),
+        ],
+      ),
       home: MediaDemoHomeScreen(
         onToggleTheme: _toggleTheme,
         isDark: _themeMode == ThemeMode.dark,
@@ -354,26 +359,12 @@ class _MediaDemoHomeScreenState extends State<MediaDemoHomeScreen> {
     return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
   }
 
-  void _showSuccess(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: const Color(0xFF00E676),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+  void _showSuccess(String title, [String? description]) {
+    AppSnackbar.success(title, description: description);
   }
 
-  void _showWarning(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.amber.shade800,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+  void _showWarning(String title, [String? description]) {
+    AppSnackbar.warning(title, description: description);
   }
 
   // -------------------------------------------------------------
