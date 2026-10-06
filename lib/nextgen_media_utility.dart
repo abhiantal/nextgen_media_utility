@@ -31,3 +31,6 @@ export 'src/audio/animated_audio_player.dart';
 
 // Media Display Grid & Viewers
 export 'src/display/media_display.dart';
+
+// Video Trimming
+export 'src/video/video_trimmer_view.dart';
