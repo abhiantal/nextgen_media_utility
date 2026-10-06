@@ -1,0 +1,50 @@
+name: nextgen_media_utility
+description: A high-performance, all-in-one Flutter media toolkit featuring camera capture, gallery picker, image editing suite with drawing & filters, audio recorder/player, and media display.
+version: 0.0.1
+homepage: https://github.com/abhiantal/nextgen_media_utility
+repository: https://github.com/abhiantal/nextgen_media_utility
+issue_tracker: https://github.com/abhiantal/nextgen_media_utility/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Media picking & camera
+  camera: ^0.12.0+2
+  image_picker: ^1.2.0
+  file_picker: ^12.0.0
+  photo_manager: ^3.8.3
+  photo_manager_image_provider: ^2.1.1
+  image: ^4.1.7
+  gal: ^2.3.0
+
+  # Media viewing & editing
+  video_player: ^2.8.2
+  crop_your_image: ^2.0.0
+  photo_view: ^0.15.0
+  cached_network_image: ^3.4.1
+  visibility_detector: ^0.4.0+2
+
+  # Audio recording & playback
+  record: ^7.1.1
+  audioplayers: ^6.8.1
+
+  # Compression & filesystem
+  flutter_image_compress: ^2.4.0
+  video_compress: ^3.1.4
+  path_provider: ^2.1.5
+  path: ^1.9.0
+  crypto: ^3.0.6
+  permission_handler: ^13.0.1
+  http: ^1.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
