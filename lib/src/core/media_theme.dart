@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class MediaTheme {
   // Light theme colors
+  static const Color primaryNeon = Color(0xFF6366F1);
   static const Color lightPrimary = Color(0xFF6366F1);
   static const Color lightSecondary = Color(0xFFEC4899);
   static const Color lightBackground = Color(0xFFF9FAFB);

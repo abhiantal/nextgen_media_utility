@@ -24,6 +24,7 @@ export 'src/editor/media_editor_suite_screen.dart';
 // Media & Gallery Picker
 export 'src/picker/gallery_picker_screen.dart';
 export 'src/picker/media_picker.dart';
+export 'src/picker/media_compression_sheet.dart';
 
 // Audio Recording & Waveform Player
 export 'src/audio/enhanced_audio_recorder.dart';

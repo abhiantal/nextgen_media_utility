@@ -84,6 +84,36 @@ class _MediaDemoHomeScreenState extends State<MediaDemoHomeScreen> {
     );
   }
 
+  void _openCompressionSheet() async {
+    final picked = await Navigator.push<List<MediaAssetModel>?>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const GalleryPickerScreen(allowMultiple: false),
+      ),
+    );
+
+    if (!mounted || picked == null || picked.isEmpty) return;
+
+    final compressed = await MediaCompressionSheet.show(
+      context,
+      file: picked.first.file,
+      isVideo: picked.first.type == MediaType.video,
+    );
+
+    if (compressed != null) {
+      final oldSize = (await picked.first.file.length()) / 1024;
+      final newSize = (await compressed.length()) / 1024;
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Compressed: ${oldSize.toStringAsFixed(0)} KB → ${newSize.toStringAsFixed(0)} KB!',
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,6 +154,12 @@ class _MediaDemoHomeScreenState extends State<MediaDemoHomeScreen> {
               icon: const Icon(Icons.mic),
               label: const Text('Open Audio Recorder'),
               onPressed: _openAudioRecorder,
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.compress_rounded),
+              label: const Text('Custom Media Compressor'),
+              onPressed: _openCompressionSheet,
             ),
             const SizedBox(height: 24),
             if (_selectedMedia.isNotEmpty) ...[
