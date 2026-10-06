@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:nextgen_media_utility/nextgen_media_utility.dart';
 import 'package:path_provider/path_provider.dart';
@@ -321,15 +322,24 @@ class _MediaDemoHomeScreenState extends State<MediaDemoHomeScreen> {
       '${tempDir.path}/sample_demo_${DateTime.now().millisecondsSinceEpoch}.png',
     );
 
-    // 1x1 base PNG fallback or write solid dummy PNG
-    final dummyPng = Uint8List.fromList([
-      137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82,
-      0, 0, 1, 0, 0, 0, 1, 0, 8, 2, 0, 0, 0, 144, 119, 83, 222, 0,
-      0, 0, 12, 73, 68, 65, 84, 120, 156, 99, 248, 207, 192, 0, 0,
-      3, 1, 1, 0, 24, 221, 141, 176, 0, 0, 0, 0, 73, 69, 78, 68, 174,
-      66, 96, 130,
-    ]);
-    await file.writeAsBytes(dummyPng);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+    final paint = Paint()
+      ..shader = ui.Gradient.linear(
+        const Offset(0, 0),
+        const Offset(400, 400),
+        [const Color(0xFF1E88E5), const Color(0xFF00E676)],
+      );
+    canvas.drawRect(const Rect.fromLTWH(0, 0, 400, 400), paint);
+
+    // Draw some creative shapes for testing the editor
+    final circlePaint = Paint()..color = Colors.white.withValues(alpha: 0.3);
+    canvas.drawCircle(const Offset(200, 200), 80, circlePaint);
+
+    final picture = recorder.endRecording();
+    final img = await picture.toImage(400, 400);
+    final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+    await file.writeAsBytes(byteData!.buffer.asUint8List());
 
     return MediaAssetModel(
       id: 'sample_${DateTime.now().millisecondsSinceEpoch}',
