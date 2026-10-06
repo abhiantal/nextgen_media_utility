@@ -1,6 +1,6 @@
 // ============================================================
-// FILE: lib/media_utility/drawing_painter.dart
-// Enhanced Drawing Painter with Smooth Curves - UPDATED
+// FILE: lib/src/editor/drawing_painter.dart
+// NextGen Media Utility — Drawing Painter with Smooth Curves
 // ============================================================
 
 import 'package:flutter/material.dart';

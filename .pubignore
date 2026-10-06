@@ -1,0 +1,6 @@
+# .pubignore — files excluded from the published pub.dev package
+packeg_dox/
+.idea/
+build/
+.dart_tool/
+*.iml

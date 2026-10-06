@@ -1,51 +1,36 @@
 # NextGen Media Utility
 
-[![pub package](https://img.shields.io/badge/pub.dev-nextgen__media__utility-blue.svg)](https://pub.dev)
+[![pub package](https://img.shields.io/pub/v/nextgen_media_utility.svg)](https://pub.dev/packages/nextgen_media_utility)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-3.10%2B-02569B?logo=flutter)](https://flutter.dev)
 
-A modular, high-performance, all-in-one Flutter media powerhouse designed for modern mobile and cross-platform applications. `nextgen_media_utility` combines hardware-accelerated camera capture, multi-format gallery selection, interactive image & canvas editing, waveform audio recording/playback, and full-screen media galleries into an intuitive, zero-boilerplate API.
+A modular, high-performance, all-in-one Flutter media powerhouse for modern mobile apps.  
+`nextgen_media_utility` bundles hardware-accelerated camera capture, multi-format gallery selection, interactive image & canvas editing, waveform audio recording/playback, and a full-screen adaptive media gallery — all behind a clean, zero-boilerplate API.
 
 ---
 
 ## ✨ Features
 
-- 📸 **In-App Camera Suite (`CameraCaptureScreen`)**
-  - Ultra-smooth photo capture & video recording with exposure and focus locking.
-  - Multi-camera switching, torch/flash controls, and real-time recording timer animations.
-  - Background compute-thread EXIF rotation correction and compression.
-
-- 🖼️ **Multi-Format Gallery Picker (`GalleryPickerScreen` & `MediaPicker`)**
-  - Album-aware media browser with custom buckets and file size caps.
-  - Native multi-selection, live thumbnails, and instant previewing.
-  - High-efficiency disk caching and storage path resolution.
-
-- 🎨 **Creative Editor Suite (`MediaEditorSuiteScreen`)**
-  - Interactive canvas drawing with multi-color brush strokes and variable thickness.
-  - Preset artistic color filters (Vibrant, Sepia, Noir, Warm, Cold, Dramatic).
-  - Crop & rotate tools, text overlays, and multi-asset collage composition.
-
-- 🎙️ **Audio Recording & Playback (`EnhancedAudioRecorder` & `AnimatedAudioPlayer`)**
-  - Pulse-animated audio recorder with live visualizer bars.
-  - Interactive audio player supporting streaming URLs and local files.
-  - Adaptive styling: chat bubble style or media card layout with seekable waveforms.
-
-- 📱 **Adaptive Media Display Grid & Viewers (`MediaDisplay` & `FullScreenViewer`)**
-  - Automatic detection for images, videos, audio notes, and documents.
-  - Grid, carousel, and list layout modes with integrated Hero animations.
-  - Fullscreen pinch-to-zoom viewer with video controls and one-click gallery saving (`Gal`).
+| Module | Widget / API | Highlights |
+|--------|-------------|------------|
+| 📸 **Camera** | `CameraCaptureScreen` | Photo & video, flash, multi-camera, EXIF fix |
+| 🖼️ **Gallery Picker** | `GalleryPickerScreen` | Album browser, multi-select, size caps |
+| 📎 **Attachment Sheet** | `EnhancedMediaPicker` | WhatsApp-style picker (camera, gallery, audio, docs) |
+| 🎨 **Photo Studio** | `MediaEditorScreen` | 25+ filters, freehand drawing, crop & rotate |
+| 🔊 **Audio** | `EnhancedAudioRecorder` / `AnimatedAudioPlayer` | Live waveform, bubble & card styles |
+| 📱 **Media Display** | `EnhancedMediaDisplay` | Grid, carousel, list — Hero fullscreen viewer |
+| ✂️ **Video Trimmer** | `VideoTrimmerView` | Range-slider trim with live preview |
+| 🗜️ **Compressor** | `MediaCompressionSheet` | Quality presets, size preview |
 
 ---
 
 ## 🚀 Getting Started
 
-### Installation
-
-Add `nextgen_media_utility` to your `pubspec.yaml`:
+### 1. Add the dependency
 
 ```yaml
 dependencies:
-  nextgen_media_utility: ^0.0.1
+  nextgen_media_utility: ^0.1.0
 ```
 
 Or run:
@@ -54,157 +39,179 @@ Or run:
 flutter pub add nextgen_media_utility
 ```
 
-### Platform Permissions
+### 2. Platform Permissions
 
-#### Android (`android/app/src/main/AndroidManifest.xml`)
+#### Android — `android/app/src/main/AndroidManifest.xml`
 
 ```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-</manifest>
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+                 android:maxSdkVersion="32" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                 android:maxSdkVersion="29" />
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 ```
 
-#### iOS (`ios/Runner/Info.plist`)
+#### iOS — `ios/Runner/Info.plist`
 
 ```xml
 <key>NSCameraUsageDescription</key>
-<string>This app requires camera access to capture photos and videos.</string>
+<string>Required for in-app photo and video capture.</string>
 <key>NSMicrophoneUsageDescription</key>
-<string>This app requires microphone access to record audio messages and video sound.</string>
+<string>Required for audio recording.</string>
 <key>NSPhotoLibraryUsageDescription</key>
-<string>This app requires photo library access to pick and save media.</string>
+<string>Required to pick and save media.</string>
+```
+
+### 3. Register the Snackbar overlay
+
+Wrap your `MaterialApp` builder to enable the global in-app notifications:
+
+```dart
+MaterialApp(
+  builder: (context, child) => Stack(
+    children: [
+      if (child != null) child,
+      AppSnackbar(key: snackbarService.snackbarKey),
+    ],
+  ),
+)
 ```
 
 ---
 
-## 📖 Quick Start & Usage
+## 📖 Usage Examples
 
-### 1. Launching In-App Camera
+### In-App Camera
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:nextgen_media_utility/nextgen_media_utility.dart';
+final result = await Navigator.push<CameraCaptureResult?>(
+  context,
+  MaterialPageRoute(
+    builder: (_) => const CameraCaptureScreen(allowVideo: true),
+  ),
+);
 
-Future<void> captureMedia(BuildContext context) async {
-  final result = await Navigator.push<CameraCaptureResult?>(
-    context,
-    MaterialPageRoute(
-      builder: (_) => const CameraCaptureScreen(
-        allowVideo: true,
-        maxVideoDurationSeconds: 60,
-      ),
-    ),
-  );
-
-  if (result != null && result.files.isNotEmpty) {
-    print('Captured ${result.files.length} items');
-  }
+if (result != null && result.files.isNotEmpty) {
+  // result.files → List<XFile>
+  // result.filter → applied ColorFilter (nullable)
 }
 ```
 
-### 2. Picking Media with Size & Format Control
+### Gallery Picker (multi-select)
 
 ```dart
-import 'package:nextgen_media_utility/nextgen_media_utility.dart';
-
-Future<void> pickPhotos(BuildContext context) async {
-  final mediaFiles = await Navigator.push<List<MediaAssetModel>?>(
-    context,
-    MaterialPageRoute(
-      builder: (_) => const GalleryPickerScreen(
-        allowMultiple: true,
-        maxSelection: 10,
-        bucket: MediaBucket.general,
-      ),
+final assets = await Navigator.push<List<MediaAssetModel>?>(
+  context,
+  MaterialPageRoute(
+    builder: (_) => const GalleryPickerScreen(
+      allowMultiple: true,
+      maxSelection: 10,
     ),
-  );
-
-  if (mediaFiles != null) {
-    print('Selected ${mediaFiles.length} files');
-  }
-}
+  ),
+);
 ```
 
-### 3. Displaying Media in Your UI
+### Photo Studio (editor)
 
 ```dart
-import 'package:nextgen_media_utility/nextgen_media_utility.dart';
-
-Widget buildMediaGrid(List<EnhancedMediaFile> mediaItems) {
-  return MediaDisplay(
-    mediaFiles: mediaItems,
-    config: MediaDisplayConfig(
-      layout: MediaDisplayLayout.grid,
-      maxVisibleItems: 4,
-      borderRadius: BorderRadius.circular(16),
-      enableDownload: true,
-      enableFullscreen: true,
-    ),
-  );
-}
+final edited = await Navigator.push<List<MediaAssetModel>?>(
+  context,
+  MaterialPageRoute(
+    builder: (_) => MediaEditorScreen(mediaAssets: [myAsset]),
+  ),
+);
 ```
 
-### 4. Interactive Audio Recording & Playback
+### Waveform Audio Recorder
 
 ```dart
-// Audio Recording Sheet
-void recordAudio(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (_) => EnhancedAudioRecorder(
-      onRecordingCompleted: (file, duration) {
-        print('Recorded file at: ${file.path} (${duration.inSeconds}s)');
-      },
-    ),
-  );
-}
+showModalBottomSheet(
+  context: context,
+  backgroundColor: Colors.transparent,
+  builder: (_) => EnhancedAudioRecorder(
+    onCompleted: (XFile xfile) { /* handle */ },
+    onCanceled: () => Navigator.pop(context),
+  ),
+);
+```
 
-// Audio Playback
-Widget buildAudioMessage(String audioPathOrUrl) {
-  return AnimatedAudioPlayer(
-    url: audioPathOrUrl,
-    style: AudioPlayerStyle.bubble,
-    isMe: true,
-    showWaveform: true,
-  );
-}
+### Animated Audio Player
+
+```dart
+AnimatedAudioPlayer(
+  url: '/path/to/audio.m4a',
+  isLocal: true,
+  style: AudioPlayerStyle.card,
+  accentColor: Colors.indigo,
+  showWaveform: true,
+)
+```
+
+### Adaptive Media Display
+
+```dart
+EnhancedMediaDisplay(
+  mediaFiles: [
+    EnhancedMediaFile.fromUrl(id: '1', url: 'https://…/photo.jpg'),
+    EnhancedMediaFile.fromFile(file: File('/path/video.mp4')),
+  ],
+  config: MediaDisplayConfig(
+    layoutMode: MediaLayoutMode.grid,
+    allowFullScreen: true,
+    allowDelete: true,
+    showFileName: true,
+  ),
+  onDelete: (id) { /* remove item */ },
+)
+```
+
+### Media Compressor
+
+```dart
+final compressed = await MediaCompressionSheet.show(
+  context,
+  file: File('/path/to/image.jpg'),
+  isVideo: false,
+);
+```
+
+### Global Snackbar Notifications
+
+```dart
+AppSnackbar.success('Saved!');
+AppSnackbar.error('Upload failed', description: 'Check your connection.');
+AppSnackbar.info(title: 'Tip', message: 'Swipe down to dismiss.');
+AppSnackbar.loading(title: 'Processing…');
+AppSnackbar.hideLoading();
 ```
 
 ---
 
-## 🛠️ Architecture
-
-`nextgen_media_utility` is modularized into discrete, self-contained domain folders:
+## 🏗️ Architecture
 
 ```
 lib/
-├── nextgen_media_utility.dart       # Main barrel export
+├── nextgen_media_utility.dart   # Main barrel export
 └── src/
-    ├── audio/                       # Audio recorder & waveform player
-    ├── camera/                      # Camera engine & capture views
-    ├── core/                        # Data models, theming, snackbars, loggers
-    ├── display/                     # MediaDisplay widget, viewers & video player
-    ├── editor/                      # Filters, drawing painter & collage tools
-    ├── picker/                      # Gallery & multi-file pickers
-    └── video/                       # Trimming & thumbnail utilities
+    ├── core/                    # Models, theme, snackbar, logger, layout
+    ├── camera/                  # CameraCaptureScreen
+    ├── editor/                  # Filters, drawing, editor suite
+    ├── picker/                  # Gallery picker, attachment sheet, compressor
+    ├── audio/                   # Recorder & waveform player
+    ├── display/                 # EnhancedMediaDisplay & fullscreen viewers
+    └── video/                   # VideoTrimmerView
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and pull requests are warmly welcomed! Please visit the [GitHub repository](https://github.com/abhiantal/nextgen_media_utility) to open issues or submit enhancements.
-
----
+Issues and pull requests are welcome! Visit the [GitHub repository](https://github.com/abhiantal/nextgen_media_utility).
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE).

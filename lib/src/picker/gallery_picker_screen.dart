@@ -1,6 +1,6 @@
 // ============================================================
-// FILE: lib/media_utility/gallery_picker_screen.dart
-// Gallery Picker with Rotation Fix - UPDATED
+// FILE: lib/src/picker/gallery_picker_screen.dart
+// NextGen Media Utility — Gallery Picker with Rotation Fix
 // ============================================================
 
 import 'package:flutter/material.dart';

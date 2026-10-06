@@ -1,6 +1,7 @@
-﻿// ============================================================
-// FILE: lib/media_utility/color_filters.dart
-// Each filter now exposes both 'filter' (ColorFilter for preview)
+// ============================================================
+// FILE: lib/src/editor/color_filters.dart
+// NextGen Media Utility — Color Filter Presets & Adjustment Helpers
+// Each filter exposes both 'filter' (ColorFilter for preview)
 // and 'matrix' (List<double> for server-side image processing)
 // ============================================================
 
