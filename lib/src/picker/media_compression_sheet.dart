@@ -107,6 +107,7 @@ class _MediaCompressionSheetState extends State<MediaCompressionSheet> {
         final result = await EnhancedMediaCompressor.compressVideo(
           widget.file,
           quality: vq,
+          force: true,
         );
 
         if (result != null && await result.exists()) {

@@ -116,13 +116,14 @@ class EnhancedMediaCompressor {
   static Future<File?> compressVideo(
     File file, {
     VideoQuality quality = VideoQuality.MediumQuality,
+    bool force = false,
   }) async {
     try {
       if (!await file.exists()) return file;
       final size = await file.length();
 
-      // Skip video compression for files <= 35 MB for lightning speed & instant uploads
-      if (size <= 35 * 1024 * 1024) {
+      // Skip video compression for files <= 35 MB for lightning speed & instant uploads unless explicitly forced
+      if (!force && size <= 35 * 1024 * 1024) {
         logD('⚡ [Fast Video] Video under 35MB (${(size / (1024 * 1024)).toStringAsFixed(1)}MB), skipping compression');
         return file;
       }
