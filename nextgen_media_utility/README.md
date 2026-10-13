@@ -57,7 +57,7 @@ In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  nextgen_media_utility: ^0.2.0
+  nextgen_media_utility: ^0.3.0
 ```
 
 Enable Material Icons bundling:

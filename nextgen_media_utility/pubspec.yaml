@@ -4,7 +4,7 @@ description: >
   multi-album gallery picker, creative image editor with filters & freehand drawing,
   waveform audio recorder/player, adaptive media display grid, and video trimmer.
   Zero-boilerplate drop-in API for any Flutter app.
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/abhiantal/nextgen_media_utility
 repository: https://github.com/abhiantal/nextgen_media_utility
 issue_tracker: https://github.com/abhiantal/nextgen_media_utility/issues

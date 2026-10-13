@@ -8,7 +8,7 @@ Welcome to the official monorepo for production-grade Flutter packages published
 
 | Package | Version | Description | Quick Links |
 | :--- | :---: | :--- | :--- |
-| **`nextgen_media_utility`** | `0.2.0` | Comprehensive media powerhouse: camera capture, multi-picker, smart cropper, image/video compression, audio waveform player, full-screen viewer, and offline-first pluggable storage engine with customizable `MediaBucket`. | [Documentation](nextgen_media_utility/README.md) • [10 Feature Guides](nextgen_media_utility/packeg_dox/) • [Example App](nextgen_media_utility/example/) |
+| **`nextgen_media_utility`** | `0.3.0` | Comprehensive media powerhouse: camera capture, multi-picker, smart cropper, image/video compression, audio waveform player, full-screen viewer, and offline-first pluggable storage engine with customizable `MediaBucket`. | [Documentation](nextgen_media_utility/README.md) • [10 Feature Guides](nextgen_media_utility/packeg_dox/) • [Example App](nextgen_media_utility/example/) |
 | **`nextgen_ui_kit`** | `0.1.0` | Futuristic, high-performance Flutter UI component library: neon indicators, cyber particle orbits, circular & arc meters, executive KPI cards, smart form inputs, floating toasts, cloud sync banners, and structured logger. | [Documentation](nextgen_ui_kit/README.md) • [10 Component Guides](nextgen_ui_kit/packeg_dox/) • [Example App](nextgen_ui_kit/example/) |
 
 ---
@@ -30,7 +30,7 @@ flutter_packages_pub.dev/
 │   ├── example/                           # Interactive sample application
 │   ├── test/                              # 39 passing unit and widget tests
 │   ├── README.md                          # Package guide with copy-paste recipes
-│   └── pubspec.yaml                       # v0.2.0
+│   └── pubspec.yaml                       # v0.3.0
 │
 ├── nextgen_ui_kit/                         # Futuristic UI, KPI & Feedback library
 │   ├── lib/                               # Source code
@@ -52,12 +52,12 @@ flutter_packages_pub.dev/
 
 ## ⚡ Quick Start: 30-Second Recipes
 
-### 1. `nextgen_media_utility` (v0.2.0)
+### 1. `nextgen_media_utility` (v0.3.0)
 
 Add to `pubspec.yaml`:
 ```yaml
 dependencies:
-  nextgen_media_utility: ^0.2.0
+  nextgen_media_utility: ^0.3.0
 ```
 
 #### Pick, Edit, and Compress:

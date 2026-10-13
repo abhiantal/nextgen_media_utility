@@ -1,4 +1,4 @@
-## 0.2.0
+## 0.3.0
 
 * **UniversalMediaService**: Added enterprise-grade, offline-first media orchestration engine with upload queueing, deduplication, and in-memory TTL caching.
 * **100% Customizable MediaBucket**: Developers can define custom cloud buckets with arbitrary bucket IDs, size limits (`maxSizeMB`), subfolders (`folderPath`), and extension constraints (`allowedExtensions`).
