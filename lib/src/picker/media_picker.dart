@@ -1,3 +1,4 @@
+import '../core/universal_media_service.dart';
 // ============================================================
 // FILE: lib/media_utility/media_picker.dart
 // Enhanced Media Picker - Fixed Rotation & Improved UI
@@ -26,17 +27,7 @@ import '../audio/enhanced_audio_recorder.dart';
 import '../video/video_trimmer_view.dart';
 import 'gallery_picker_screen.dart';
 
-enum MediaBucket {
-  userAvatars('user-avatars', 15, 'Avatars'),
-  bucketMedia('bucket-media', 50, 'Media'),
-  general('general', 50, 'General');
 
-  final String bucketId;
-  final int maxSizeMB;
-  final String displayName;
-
-  const MediaBucket(this.bucketId, this.maxSizeMB, this.displayName);
-}
 
 class SecurityService {
   static final SecurityService _instance = SecurityService._();

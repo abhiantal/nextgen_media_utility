@@ -18,7 +18,7 @@ dependencies:
       ref: main
 ```
 
-*(Or once published to pub.dev: `nextgen_media_utility: ^0.0.1`)*
+*(Or once published to pub.dev: `nextgen_media_utility: ^0.1.0`)*
 
 ### ⚠️ Material Icons Bundling Requirement
 Ensure your `pubspec.yaml` has `uses-material-design: true` enabled:
@@ -40,6 +40,9 @@ Add the required permissions inside the `<manifest>` tag, and include `xmlns:too
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yourcompany.yourapp">
+
+    <!-- Network Access for Cloud Storage & Audio Streaming -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Camera Access -->
     <uses-permission android:name="android.permission.CAMERA" />

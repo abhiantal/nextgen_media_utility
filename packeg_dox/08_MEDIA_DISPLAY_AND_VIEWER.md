@@ -4,6 +4,31 @@ Displaying media in chat bubbles, social feeds, and profile galleries is effortl
 
 ---
 
+## 1.1 Enhanced Media Files (`EnhancedMediaFile`)
+
+For social feeds, chat attachments, and cloud media, `EnhancedMediaFile` automatically infers media types from file extensions without manual configuration:
+
+```dart
+import 'dart:io';
+import 'package:nextgen_media_utility/nextgen_media_utility.dart';
+
+// Automatic type detection from URL (e.g. .mp4 -> video, .png -> image, .pdf -> document)
+final mediaFile = EnhancedMediaFile.fromUrl('https://example.com/uploads/clip.mp4');
+print('Inferred type: ${mediaFile.type}'); // MediaType.video
+
+// From local file
+final localMedia = EnhancedMediaFile.fromFile(File('/path/to/voice.m4a'));
+print('Is local: ${localMedia.isLocal}'); // true
+
+// Convert batch of URL strings in one shot:
+final List<EnhancedMediaFile> items = convertUrlsToEnhancedMedia([
+  'https://example.com/photo.jpg',
+  'https://example.com/video.mp4',
+  'https://example.com/doc.pdf',
+]);
+```
+
+
 ## 1. Creating `MediaAsset` Objects
 
 `MediaAsset` is the universal data model for all media items:

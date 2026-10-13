@@ -2,7 +2,7 @@
 
 Welcome to the official developer documentation for **`nextgen_media_utility`**.
 
-`nextgen_media_utility` is an all-in-one Flutter media powerhouse designed for modern mobile and cross-platform apps. It consolidates camera capture, album gallery picking, custom media compression, image/video editing, audio voice note recording, and full-screen viewers into an intuitive, zero-boilerplate API.
+`nextgen_media_utility` is an all-in-one Flutter media powerhouse designed for modern mobile and cross-platform apps. It consolidates camera capture, album gallery picking, custom media compression, image/video editing, audio voice note recording, full-screen viewers, and an enterprise offline-first cloud storage engine into an intuitive, zero-boilerplate API.
 
 ---
 
@@ -19,11 +19,13 @@ Welcome to the official developer documentation for **`nextgen_media_utility`**.
 | [**07. Audio Recorder & Player**](file:///c:/StudioProjects/nextgen_media_utility/packeg_dox/07_AUDIO_RECORDING_AND_PLAYER.md) | Pulse-animated voice recorder and interactive waveform audio player. |
 | [**08. Media Display & Viewers**](file:///c:/StudioProjects/nextgen_media_utility/packeg_dox/08_MEDIA_DISPLAY_AND_VIEWER.md) | Adaptive media grids (chat, social feeds), Hero transitions, and zoom viewer. |
 | [**09. Real-World Project Examples**](file:///c:/StudioProjects/nextgen_media_utility/packeg_dox/09_REAL_WORLD_EXAMPLES.md) | Copy-paste recipes for Chat Attachments, Profile Avatars, Stories, and more. |
+| [**10. Universal Media Service & Storage**](file:///c:/StudioProjects/nextgen_media_utility/packeg_dox/10_UNIVERSAL_MEDIA_SERVICE_AND_STORAGE.md) | Universal storage engine, custom MediaBuckets, offline sync, URL resolution & caching. |
 
 ---
 
-## ⚡ Quick 30-Second Example
+## ⚡ Quick Examples
 
+### 1. Attachment Picker Sheet
 ```dart
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -42,6 +44,23 @@ void openAttachmentPicker(BuildContext context) {
 }
 ```
 
+### 2. Universal Cloud Upload with Instant Cache Priming
+```dart
+import 'dart:io';
+import 'package:nextgen_media_utility/nextgen_media_utility.dart';
+
+Future<String?> uploadMedia(File file, String userId) async {
+  // Upload to any cloud backend with progress tracking
+  final url = await UniversalMediaService.instance.uploadSingle(
+    file: file,
+    bucket: MediaBucket.general,
+    userId: userId,
+    onProgress: (progress) => print('Progress: ${(progress * 100).toInt()}%'),
+  );
+  return url;
+}
+```
+
 ---
 
 ## 🏛️ Architecture Overview
@@ -51,15 +70,16 @@ The package is structured into clean modular layers:
 ```
 nextgen_media_utility/
 ├── lib/
-│   ├── nextgen_media_utility.dart  # Central export entrypoint
+│   ├── nextgen_media_utility.dart      # Central export entrypoint
 │   └── src/
-│       ├── camera/                 # Hardware camera capture & video recording
-│       ├── picker/                 # MediaPicker, GalleryPicker, Compression Sheet
-│       ├── editor/                 # Color filters, drawing canvas, rotation fixes
-│       ├── audio/                  # Audio recorder sheet & waveform player
-│       ├── display/                # MediaDisplay, full-screen zoom, save to gallery
-│       ├── video/                  # Video trimmer view
-│       └── core/                   # Theming, snackbars, logging, loaders
+│       ├── camera/                     # Hardware camera capture & video recording
+│       ├── picker/                     # MediaPicker, GalleryPicker, Compression Sheet
+│       ├── editor/                     # Color filters, drawing canvas, rotation fixes
+│       ├── audio/                      # Audio recorder sheet & waveform player
+│       ├── display/                    # MediaDisplay, full-screen zoom, save to gallery
+│       ├── video/                      # Video trimmer view
+│       └── core/                       # UniversalMediaService, MediaBucket, storage backends,
+│                                       # offline database delegates, theming, logger, snackbars
 ```
 
-Each module can be used independently or combined seamlessly.
+Each module can be used independently or combined seamlessly into complex production apps.

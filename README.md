@@ -21,6 +21,7 @@ A modular, high-performance, all-in-one Flutter media powerhouse for modern mobi
 | 📱 **Media Display** | `EnhancedMediaDisplay` | Grid, carousel, list — Hero fullscreen viewer |
 | ✂️ **Video Trimmer** | `VideoTrimmerView` | Range-slider trim with live preview |
 | 🗜️ **Compressor** | `MediaCompressionSheet` | Quality presets, size preview |
+| ☁️ **Cloud Storage** | `UniversalMediaService` | Pluggable (S3/Firebase/Supabase), custom buckets, offline sync |
 
 ---
 
@@ -30,7 +31,7 @@ A modular, high-performance, all-in-one Flutter media powerhouse for modern mobi
 
 ```yaml
 dependencies:
-  nextgen_media_utility: ^0.1.0
+  nextgen_media_utility: ^0.2.0
 ```
 
 Or run:

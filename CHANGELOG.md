@@ -1,3 +1,14 @@
+## 0.2.0
+
+* **UniversalMediaService**: Added enterprise-grade, offline-first media orchestration engine with upload queueing, deduplication, and in-memory TTL caching.
+* **100% Customizable MediaBucket**: Developers can define custom cloud buckets with arbitrary bucket IDs, size limits (`maxSizeMB`), subfolders (`folderPath`), and extension constraints (`allowedExtensions`).
+* **Pluggable StorageBackend**: Added pluggable storage interface allowing any developer to seamlessly connect AWS S3, Google Cloud, Firebase Storage, Supabase, or custom REST APIs.
+* **Pluggable MediaCacheDelegate**: Added offline database delegate interface with dynamic PowerSync, SQLite, Drift, or Hive support.
+* **Zero-Lag UI Cache Priming**: Added `primeLocalCache` and unified `resolveUrl` to eliminate UI white-screen flicker while background uploads process.
+* **High-Throughput Parallel Batch Uploads**: Added `uploadMultiple` with progress tracking and SHA-256 deduplication.
+* **Comprehensive Test Suite**: Added 39 unit tests covering storage backends, delegates, quota validation, and path formatting with 100% pass rate.
+* **Documentation**: Added comprehensive chapter 10 and real-world recipes in `packeg_dox`.
+
 ## 0.1.0
 
 * **Breaking change**: `MediaTheme` now exposes a complete Material 3 `ThemeData` for both

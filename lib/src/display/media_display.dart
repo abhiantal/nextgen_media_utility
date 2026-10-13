@@ -1,3 +1,4 @@
+import '../core/universal_media_service.dart';
 // ============================================================
 // FILE: lib/media_utility/media_display.dart
 // COMPLETELY FIXED — Proper URL resolution, video support, offline display
@@ -22,37 +23,8 @@ import '../core/media_asset_model.dart';
 import '../core/media_snackbar.dart';
 import '../core/media_logger.dart';
 import '../audio/animated_audio_player.dart';
-import '../picker/media_picker.dart' show MediaBucket;
 export '../audio/animated_audio_player.dart' show AudioPlayerStyle;
 
-class UrlUpdateEvent {
-  final String storagePath;
-  final String newHttpsUrl;
-  const UrlUpdateEvent({required this.storagePath, required this.newHttpsUrl});
-}
-
-class UniversalMediaService {
-  static final UniversalMediaService _instance = UniversalMediaService._();
-  factory UniversalMediaService() => _instance;
-  UniversalMediaService._();
-
-  static final StreamController<UrlUpdateEvent> _urlUpdateController =
-      StreamController<UrlUpdateEvent>.broadcast();
-
-  Stream<UrlUpdateEvent> get urlUpdates => _urlUpdateController.stream;
-
-  Future<String?> resolveUrl(String path, [dynamic bucket]) async => path;
-  Future<String?> getValidSignedUrl(String path) async => path;
-  Future<File?> getCachedFile(String path, [dynamic bucket]) async => null;
-  Future<void> purgeLocalCache(String path) async {}
-  Future<String?> findFileOnDisk(String path, [dynamic bucket]) async {
-    final f = File(path);
-    if (f.existsSync()) return path;
-    return null;
-  }
-}
-
-final mediaService = UniversalMediaService();
 
 // ============================================================
 // COMPATIBILITY HELPERS
@@ -2701,4 +2673,3 @@ class _FullScreenVideoPlayerState extends State<_FullScreenVideoPlayer> {
     );
   }
 }
-

@@ -6,6 +6,7 @@
 // Core models, themes & utilities
 export 'package:cross_file/cross_file.dart';
 export 'src/core/media_asset_model.dart';
+export 'src/core/universal_media_service.dart';
 export 'src/core/media_theme.dart';
 export 'src/core/media_layout.dart';
 export 'src/core/media_logger.dart';

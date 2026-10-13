@@ -105,6 +105,8 @@ class SnackbarMessage {
 }
 
 /// ----------------- Top-of-Screen Animated Snackbar Widget -----------------
+typedef MediaSnackbar = AppSnackbar;
+
 class AppSnackbar extends StatefulWidget {
   const AppSnackbar({super.key});
 

@@ -28,12 +28,8 @@ class MediaLogger {
 }
 
 // Convenience global shortcuts compatible with existing code
-void logD(String message) => MediaLogger.info(message);
-void logI(String message) => MediaLogger.info(message);
-void logW(String message) => MediaLogger.warning(message);
-void logE(
-  String message, [
-  dynamic error,
-  StackTrace? stackTrace,
-]) =>
+void logD(String message, [dynamic error]) => MediaLogger.info(message, error);
+void logI(String message, [dynamic error]) => MediaLogger.info(message, error);
+void logW(String message, [dynamic error]) => MediaLogger.warning(message, error);
+void logE(String message, [dynamic error, StackTrace? stackTrace]) =>
     MediaLogger.error(message, error, stackTrace);

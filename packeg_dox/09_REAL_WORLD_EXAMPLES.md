@@ -213,3 +213,147 @@ class SocialPostCard extends StatelessWidget {
   }
 }
 ```
+---
+
+## ☁️ Recipe 5: Enterprise Media Upload with Custom Bucket & Progress
+
+Flow: User selects media -> Compresses with `EnhancedMediaCompressor` -> Validates file size -> Uploads via `UniversalMediaService.uploadSingle` with live progress callback.
+
+```dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:nextgen_media_utility/nextgen_media_utility.dart';
+
+// 1. Define your custom domain bucket
+const reportBucket = MediaBucket(
+  bucketId: 'field_reports',
+  folderPath: 'reports/media',
+  maxSizeMB: 30,
+  isPublic: false,
+  displayName: 'Field Reports',
+  allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4', 'pdf'],
+);
+
+Future<String?> uploadFieldReportMedia({
+  required BuildContext context,
+  required File originalFile,
+  required String userId,
+  required Function(double) onProgress,
+}) async {
+  // 2. Validate file size against bucket rules
+  final isValid = UniversalMediaService.validateFileSize(originalFile, reportBucket);
+  if (!isValid) return null;
+
+  // 3. Compress image/video before uploading to conserve bandwidth
+  final compressed = await EnhancedMediaCompressor.compress(
+    originalFile,
+    quality: 75,
+    minWidth: 1280,
+  );
+
+  // 4. Upload via UniversalMediaService
+  final publicOrSignedUrl = await UniversalMediaService.instance.uploadSingle(
+    file: compressed,
+    bucket: reportBucket,
+    userId: userId,
+    onProgress: onProgress,
+  );
+
+  return publicOrSignedUrl;
+}
+```
+
+---
+
+## 🔌 Recipe 6: Connecting a Custom Cloud Storage Backend (AWS S3 / Firebase)
+
+Flow: Plug in your own cloud storage provider (e.g. AWS S3, Google Cloud, Firebase Storage) by implementing `StorageBackend`.
+
+```dart
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:nextgen_media_utility/nextgen_media_utility.dart';
+
+class CustomCloudStorageBackend implements StorageBackend {
+  final String apiBaseUrl;
+
+  CustomCloudStorageBackend({required this.apiBaseUrl});
+
+  @override
+  Future<String?> upload({
+    required dynamic file,
+    required String path,
+    required MediaBucket bucket,
+    String? mimeType,
+    void Function(double)? onProgress,
+  }) async {
+    final Uint8List bytes = file is File ? await file.readAsBytes() : file as Uint8List;
+
+    // Call your custom REST API, AWS S3 SDK, or Firebase Storage SDK here:
+    // final response = await myHttpUpload(url: '$apiBaseUrl/upload', bytes: bytes);
+    onProgress?.call(1.0);
+
+    return '$apiBaseUrl/storage/${bucket.bucketId}/$path';
+  }
+
+  @override
+  Future<String?> resolveUrl(String path, MediaBucket bucket) async {
+    return '$apiBaseUrl/storage/${bucket.bucketId}/$path';
+  }
+
+  @override
+  Future<bool> delete(String path, MediaBucket bucket) async {
+    // await myHttpDelete('$apiBaseUrl/storage/${bucket.bucketId}/$path');
+    return true;
+  }
+}
+
+// Register during app startup:
+void configureMediaBackend() {
+  UniversalMediaService.storageBackend = CustomCloudStorageBackend(
+    apiBaseUrl: 'https://api.mycompany.com',
+  );
+}
+```
+
+---
+
+## ⚡ Recipe 7: Instant Zero-Lag UI Rendering with Cache Priming
+
+Flow: When an end-user captures a photo or picks an image, don't make them wait for the cloud upload to finish before viewing it. Prime the local cache with `primeLocalCache` for immediate rendering.
+
+```dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:nextgen_media_utility/nextgen_media_utility.dart';
+
+Future<void> sendChatPhotoOptimistic({
+  required File localPhoto,
+  required String currentUserId,
+}) async {
+  final service = UniversalMediaService.instance;
+  
+  // 1. Generate the canonical cloud storage path
+  final cloudPath = service.getCanonicalStoragePath(
+    userId: currentUserId,
+    bucket: const MediaBucket(bucketId: 'chat_media', maxSizeMB: 50),
+    uniqueName: '${DateTime.now().millisecondsSinceEpoch}.jpg',
+  );
+
+  // 2. Prime the cache immediately with the local file path
+  // Any UI widget resolving `cloudPath` will display `localPhoto.path` instantly!
+  service.primeLocalCache(cloudPath, localPhoto.path);
+
+  // 3. Initiate the background cloud upload asynchronously
+  service.uploadSingle(
+    file: localPhoto,
+    bucket: const MediaBucket(bucketId: 'chat_media', maxSizeMB: 50),
+    customPath: cloudPath,
+  ).then((uploadedUrl) {
+    print('Background cloud upload completed: $uploadedUrl');
+  }).catchError((error) {
+    print('Upload failed, will retry: $error');
+  });
+}
+```

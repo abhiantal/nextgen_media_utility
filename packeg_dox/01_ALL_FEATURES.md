@@ -91,3 +91,24 @@
 * **`MediaLogger`**: Colored debug logs (`logI`, `logW`, `logE`, `logD`) that automatically disable in production release builds.
 * **`MediaSnackbar`**: Floating snackbars for warnings, errors, and success notifications.
 * **`MediaLoadingIndicator`**: Sleek loading overlays with customizable messages and progress bars.
+---
+
+### 9. Enterprise Cloud Storage & Offline-First Media Engine (`UniversalMediaService` & `MediaBucket`)
+* **100% Customizable Storage Buckets (`MediaBucket`)**:
+  * Zero-boilerplate fallback preset (`MediaBucket.general`) with total freedom to instantiate any custom bucket.
+  * Easily instantiate dynamic custom buckets (`MediaBucket(bucketId: ..., maxSizeMB: ..., folderPath: ..., allowedExtensions: ...)`).
+  * Automatically enforces per-bucket maximum size quotas and allowed file extensions (`validateFileSize`).
+* **Pluggable Storage Backends (`StorageBackend`)**:
+  * Default native integration with Supabase Storage.
+  * Drop-in support for AWS S3, Google Cloud Storage, Firebase Storage, or custom HTTP endpoints via `UniversalMediaService.storageBackend`.
+* **Pluggable Offline Database Delegates (`MediaCacheDelegate`)**:
+  * Direct PowerSync integration via dynamic adapter (`powerSyncInstance`).
+  * Custom database delegate interface (`executeQuery`, `execute`, `querySingle`, `isOnline`, `isInitialized`) for SQLite, Drift, or Hive.
+* **Instant Zero-Lag UI Display (`primeLocalCache`)**:
+  * Primes in-memory URL caches with freshly taken or edited local file paths so widgets render immediately with zero flicker while cloud uploads proceed in the background.
+* **High-Throughput Parallel Batch Uploads (`uploadMultiple`)**:
+  * Concurrency control, deduplication, and overall progress callbacks.
+* **Intelligent File Deduplication**:
+  * Fast SHA-256 chunk hashing prevents re-uploading identical media files.
+* **Smart URL & Signed URL Resolution (`resolveUrl`)**:
+  * Resolves cloud keys, local disk paths, public CDN links, and authenticated private signed URLs with automatic in-memory TTL caching.

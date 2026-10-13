@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
 import '../core/media_logger.dart';
-import '../display/media_display.dart' show UniversalMediaService;
+import '../core/universal_media_service.dart';
 
 enum AudioPlayerStyle { bubble, card }
 
